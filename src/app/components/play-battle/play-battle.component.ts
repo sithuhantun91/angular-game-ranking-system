@@ -51,40 +51,45 @@ export class PlayBattleComponent implements OnInit{
           this.userService.getClanByUserId(this.loginUserId).subscribe(data => {
             this.loginUser.clan = data;
 
-            this.userService.getClanRankByUserId(this.otherPlayer.id).subscribe(data => {
-              this.otherPlayer.clanRank = data;
-
-              this.userService.getClanRankByUserId(this.loginUserId).subscribe(data => {
-                this.loginUser.clanRank = data;
-
-                this.userService.getRoleByUserId(this.otherPlayer.id).subscribe(data => {
-                  this.otherPlayer.role = data;
-
-                  this.userService.getRoleByUserId(this.loginUserId).subscribe(data => {
-                    this.loginUser.role = data;
+            // this.userService.getClanRankByUserId(this.otherPlayer.id).subscribe(data => {
+            //   this.otherPlayer.clanRank = data;
+            //
+            //   this.userService.getClanRankByUserId(this.loginUserId).subscribe(data => {
+            //     this.loginUser.clanRank = data;
+            //
+            //     this.userService.getRoleByUserId(this.otherPlayer.id).subscribe(data => {
+            //       this.otherPlayer.role = data;
+            //
+            //       this.userService.getRoleByUserId(this.loginUserId).subscribe(data => {
+            //         this.loginUser.role = data;
 
                     if(result){
                       this.winnerId = this.loginUser.id;
 
                       // add Trophies Point
                       this.loginUser.trophies += 30;
-                      this.userService.updateUser(this.loginUser).subscribe(data => data);
+                      this.userService.updateUser(this.loginUser).subscribe(data => {
+                        // this.loginUser = data;
 
-                      // subtract Trophies Point
-                      this.otherPlayer.trophies -= 30;
-                      if(this.otherPlayer.trophies < 0) this.otherPlayer.trophies = 0;
-                      this.userService.updateUser(this.otherPlayer).subscribe(data => data);
+                        // subtract Trophies Point
+                        this.otherPlayer.trophies -= 30;
+                        if(this.otherPlayer.trophies < 0) this.otherPlayer.trophies = 0;
+                        this.userService.updateUser(this.otherPlayer).subscribe(data => data);
+                      });
+
                     }else{
                       this.winnerId = this.otherPlayer.id;
 
                       // add Trophies Point
                       this.otherPlayer.trophies += 30;
-                      this.userService.updateUser(this.otherPlayer).subscribe(data => data);
+                      this.userService.updateUser(this.otherPlayer).subscribe(data => {
+                        // this.otherPlayer = data;
 
-                      // subtract Trophies Point
-                      this.loginUser.trophies -= 30;
-                      if(this.loginUser.trophies < 0) this.loginUser.trophies = 0;
-                      this.userService.updateUser(this.loginUser).subscribe(data => data);
+                        // subtract Trophies Point
+                        this.loginUser.trophies -= 30;
+                        if(this.loginUser.trophies < 0) this.loginUser.trophies = 0;
+                        this.userService.updateUser(this.loginUser).subscribe(data => data);
+                      });
                     }
 
                     // console.log(this.loginUser);
@@ -95,10 +100,10 @@ export class PlayBattleComponent implements OnInit{
                     this.battleLogService.addBattleLog(battleLog).subscribe(data => data);
                   })
                 })
-              })
-            })
-          })
-        })
+              // })
+          //   })
+          // })
+        // })
 
 
       });
