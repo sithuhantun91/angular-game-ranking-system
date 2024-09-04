@@ -41,9 +41,7 @@ export class PlayBattleComponent implements OnInit{
       this.userService.getUser(this.loginUserId).subscribe(data => {
         this.loginUser = data;
         let result : boolean = this.getRandomBoolean();
-        let battleLog: BattleLog = new BattleLog();
-        battleLog.player1 = this.loginUser;
-        battleLog.player2 = this.otherPlayer;
+
 
         this.userService.getClanByUserId(this.otherPlayer.id).subscribe(data => {
           this.otherPlayer.clan = data;
@@ -51,17 +49,21 @@ export class PlayBattleComponent implements OnInit{
           this.userService.getClanByUserId(this.loginUserId).subscribe(data => {
             this.loginUser.clan = data;
 
-            // this.userService.getClanRankByUserId(this.otherPlayer.id).subscribe(data => {
-            //   this.otherPlayer.clanRank = data;
-            //
-            //   this.userService.getClanRankByUserId(this.loginUserId).subscribe(data => {
-            //     this.loginUser.clanRank = data;
-            //
-            //     this.userService.getRoleByUserId(this.otherPlayer.id).subscribe(data => {
-            //       this.otherPlayer.role = data;
-            //
-            //       this.userService.getRoleByUserId(this.loginUserId).subscribe(data => {
-            //         this.loginUser.role = data;
+            this.userService.getClanRankByUserId(this.otherPlayer.id).subscribe(data => {
+              this.otherPlayer.clanRank = data;
+
+              this.userService.getClanRankByUserId(this.loginUserId).subscribe(data => {
+                this.loginUser.clanRank = data;
+
+                this.userService.getRoleByUserId(this.otherPlayer.id).subscribe(data => {
+                  this.otherPlayer.role = data;
+
+                  this.userService.getRoleByUserId(this.loginUserId).subscribe(data => {
+                    this.loginUser.role = data;
+
+                    let battleLog: BattleLog = new BattleLog();
+                    battleLog.player1 = this.loginUser;
+                    battleLog.player2 = this.otherPlayer;
 
                     if(result){
                       this.winnerId = this.loginUser.id;
@@ -69,7 +71,6 @@ export class PlayBattleComponent implements OnInit{
                       // add Trophies Point
                       this.loginUser.trophies += 30;
                       this.userService.updateUser(this.loginUser).subscribe(data => {
-                        // this.loginUser = data;
 
                         // subtract Trophies Point
                         this.otherPlayer.trophies -= 30;
@@ -92,18 +93,16 @@ export class PlayBattleComponent implements OnInit{
                       });
                     }
 
-                    // console.log(this.loginUser);
-                    // console.log(this.otherPlayer);
-
                     // add battle log
                     battleLog.winner = this.winnerId;
-                    this.battleLogService.addBattleLog(battleLog).subscribe(data => data);
+                    this.battleLogService.addBattleLog(battleLog).subscribe(data => battleLog = data);
+                    console.log("battleLog", battleLog);
                   })
                 })
-              // })
-          //   })
-          // })
-        // })
+              })
+            })
+          })
+        })
 
 
       });

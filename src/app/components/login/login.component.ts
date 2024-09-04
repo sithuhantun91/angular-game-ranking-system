@@ -60,7 +60,6 @@ export class LoginComponent implements OnInit{
         this.userService.getRoleByUserId(loginUserId).subscribe(data => {
           sessionStorage.setItem('loginUserRoleId', data.id.toString());
 
-          //this.router.navigate(['/navigation-bar']);
           this.router.navigate(['/user-profile']);
         });
 

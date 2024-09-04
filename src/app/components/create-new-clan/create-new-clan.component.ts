@@ -78,6 +78,7 @@ export class CreateNewClanComponent implements OnInit{
           this.clanService.registerClan(clan).subscribe(
             {
               next: response => {
+                console.log(response);
                 alert(`New Clan has been registered successfully!`);
 
                 let user : User = new User();

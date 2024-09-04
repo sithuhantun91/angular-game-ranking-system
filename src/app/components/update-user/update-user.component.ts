@@ -111,11 +111,17 @@ export class UpdateUserComponent implements OnInit {
     //       return;
     //     }
 
+    let user: User = new User();
+
+    this.userService.getUser(Number(id)).subscribe(
+      data => {
+        user = data;
+        console.log(user);
+
         // set up user and role
         this.roleService.getRole(this.selectedRoleId.value).subscribe(
           data => {
-            let user: User = new User();
-            user.id = Number(id);
+
             user.firstName = this.firstname.value.toLowerCase().trim();
             user.lastName = this.lastname.value.toLowerCase().trim();
             user.email = this.email.value;
@@ -133,10 +139,6 @@ export class UpdateUserComponent implements OnInit {
                   {
                     next: response => {
                       alert(`User has been updated successfully!`);
-
-                      // reset cart
-                      //this.resetUser();
-
                     },
                     error: err => {
                       alert(`There was an error: ${err.message}`);
@@ -147,13 +149,11 @@ export class UpdateUserComponent implements OnInit {
             });
           }
         );
+      }
+    )
+
     // });
   }
-
-  // resetUser() {
-  //   // reset the form
-  //   this.updateUserFormGroup.reset();
-  // }
 
   toPascalCase(str: string): string {
     return str.replace(/\w+/g,

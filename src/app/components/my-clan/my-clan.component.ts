@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from "../../common/user";
-import {Clan} from "../../common/clan";
 import {UserService} from "../../services/user.service";
 import {Router} from "@angular/router";
 import {ClanService} from "../../services/clan.service";
@@ -68,12 +67,14 @@ export class MyClanComponent implements OnInit{
   }
 
   listUsers() {
-    let clanId: number = this.loginUser.clan.id;
-    console.log(clanId);
-    this.userService.getUserListByClanIdPaginate(
-      clanId,
-      this.thePageNumber - 1,
-      this.thePageSize).subscribe(this.processResult());
+    if(this.loginUser.clan != null){
+      let clanId: number = this.loginUser.clan.id;
+      this.userService.getUserListByClanIdPaginate(
+        clanId,
+        this.thePageNumber - 1,
+        this.thePageSize).subscribe(this.processResult());
+    }
+
   }
 
   processResult() {

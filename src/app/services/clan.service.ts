@@ -23,7 +23,7 @@ export class ClanService {
   }
 
   checkClanName(clanName: string): Observable<boolean> {
-    return this.httpClient.get<boolean>(this.baseUrl + '/' + clanName);
+    return this.httpClient.get<boolean>(this.baseUrl2 + '/' + clanName);
   }
 
   registerClan(clan: Clan) {
